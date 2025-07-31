@@ -1,39 +1,9 @@
 <template>
   <div class="landing-page">
+    <Navbar />
+    <CartDrawer />
     <div class="main-content">
-      <nav class="navbar">
-        <div class="logo-section">
-          <img src="/frost_and_flour_icon.png" alt="Frost and Flour Logo" class="logo-img" />
-          <span class="logo-text">Frost and Flour</span>
-        </div>
-        <ul class="nav-links">
-          <li class="active">Home</li>
-          <li>Menu</li>
-          <li>About</li>
-          <li>Orders</li>
-          <li>Contact</li>
-        </ul>
-        <div v-if="authUser" class="nav-icons">
-          <div class="profile-icon-wrapper" ref="profileMenuRef">
-            <button class="icon-btn" @click.stop="showProfileMenu = !showProfileMenu">
-              <!-- Person SVG -->
-              <svg width="24" height="24" fill="none" stroke="#d72660" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-2.2 3.6-4 8-4s8 1.8 8 4"/></svg>
-            </button>
-            <div v-if="showProfileMenu" class="profile-dropdown">
-              <div class="dropdown-item" @click="viewProfile">View Profile</div>
-              <div class="dropdown-item" @click="logout">Logout</div>
-            </div>
-          </div>
-          <div class="cart-icon-wrapper">
-            <button class="icon-btn">
-              <!-- Cart SVG -->
-              <svg width="24" height="24" fill="none" stroke="#d72660" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-              <span class="cart-badge">{{ cartCount }}</span>
-            </button>
-          </div>
-        </div>
-      </nav>
-
+      <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-img-col">
           <img src="/home_page.jpg" alt="Bakery Cake" class="hero-img" />
@@ -41,12 +11,12 @@
         <div class="hero-content-col">
           <h1 class="hero-title">Deliver You A Blissful<br />Dessert in Every Bite</h1>
           <p class="hero-desc">
-Indulge in handcrafted desserts made with love, fresh ingredients, and a sprinkle of joy. From classic cupcakes to signature creations, every bite is a celebration of flavor. Whether you're craving a treat or planning a special event, we're here to make your day a little sweeter!          </p>
-          <button class="about-btn">About Us</button>
+            Indulge in handcrafted desserts made with love, fresh ingredients, and a sprinkle of joy. From classic cupcakes to signature creations, every bite is a celebration of flavor. Whether you're craving a treat or planning a special event, we're here to make your day a little sweeter!
+          </p>
+          <router-link to="/menu" class="about-btn">Explore Menu</router-link>
         </div>
       </section>
-
-      <!-- Best Selling Menu Preview Section -->
+      <!-- Menu Preview Section -->
       <section class="menu-preview-section">
         <div class="menu-header-row">
           <div class="menu-header-title">
@@ -69,102 +39,36 @@ Indulge in handcrafted desserts made with love, fresh ingredients, and a sprinkl
           </div>
         </div>
         <div class="menu-view-more-row">
-          <button class="menu-view-more-btn">View More <span class="arrow">→</span></button>
+          <router-link to="/menu" class="menu-view-more-btn">View More <span class="arrow">→</span></router-link>
         </div>
       </section>
-
       <!-- About Us Section -->
       <section class="about-preview-section">
         <img src="/about_preview.jpg" alt="About Us" class="about-bg-img" />
         <div class="about-content">
           <h2 class="about-title">About us</h2>
           <p class="about-desc">We're all about good vibes and great bakes! Everything we make is crafted to spark joy and satisfy your sweet tooth!</p>
-          <button class="about-read-btn">Read More</button>
+          <router-link to="/about" class="about-read-btn">Read More</router-link>
         </div>
       </section>
-
-      <!-- Contact Section / Footer -->
-      <footer class="contact-footer-section">
-        <img src="/contact_preview.jpg" alt="Contact Background" class="contact-bg-img" />
-        <div class="contact-footer-content">
-          <div class="footer-top-row">
-            <div class="footer-logo-row">
-              <img src="/frost_and_flour_icon.png" alt="Frost and Flour Logo" class="footer-logo-img" />
-              <span class="footer-logo-text">Frost & Flour</span>
-            </div>
-            <div class="footer-social-row footer-social-right">
-              <span>Follow us</span>
-              <a href="#" class="footer-social-icon" aria-label="Facebook"><svg width="22" height="22" fill="none" stroke="#d72660" stroke-width="2" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-              <a href="#" class="footer-social-icon" aria-label="Pinterest"><svg width="22" height="22" fill="none" stroke="#d72660" stroke-width="2" viewBox="0 0 24 24"><path d="M8.72 21c.38-1.5 2.28-8.5 2.28-8.5s-.57-1.13-.57-2.8c0-2.62 2.1-4.75 4.7-4.75 2.2 0 3.43 1.57 3.43 3.66 0 2.2-1.17 5.5-2.8 5.5-1.1 0-1.92-1.1-1.66-2.45.32-1.7.94-3.54.94-4.77 0-1.1-.6-2-1.8-2-1.43 0-2.6 1.5-2.6 3.5 0 1.3.47 2.2.47 2.2s-1.6 6.7-1.9 8.1c-.2.8-.3 1.7-.3 2.5 0 .3.1.6.2.8.1.2.3.3.5.3.2 0 .4-.1.5-.3.1-.2.2-.5.2-.8 0-.8.1-1.7.3-2.5z"/></svg></a>
-              <a href="#" class="footer-social-icon" aria-label="WhatsApp"><svg width="22" height="22" fill="none" stroke="#d72660" stroke-width="2" viewBox="0 0 24 24"><path d="M21.7 20.3l-3.4-3.4c1.1-1.5 1.7-3.3 1.7-5.2C20 6.5 16.5 3 12.5 3S5 6.5 5 11c0 1.9.6 3.7 1.7 5.2l-3.4 3.4c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l3.4-3.4c1.5 1.1 3.3 1.7 5.2 1.7 4 0 7.5-3.5 7.5-7.5 0-1.9-.6-3.7-1.7-5.2z"/></svg></a>
-              <a href="#" class="footer-social-icon" aria-label="Instagram"><svg width="22" height="22" fill="none" stroke="#d72660" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
-            </div>
-          </div>
-          <div class="footer-divider"></div>
-          <div class="footer-bottom-row">
-            <div class="footer-col">
-              <div class="footer-col-title">Contact</div>
-              <div>(051)-2552890</div>
-              <div>frostandflour@gmail.com</div>
-              <div>Street 39 H-8/3</div>
-              <div>Islamabad, Pakistan</div>
-            </div>
-            <div class="footer-col">
-              <div class="footer-col-title">Explore</div>
-              <div>Home</div>
-              <div>Blog</div>
-              <div>Services</div>
-            </div>
-          </div>
-          <div class="footer-copyright">© 2024 Frost & Flour. All rights reserved</div>
-        </div>
-      </footer>
+      
+      <!-- Remove the custom contact-footer-section here -->
+      
     </div>
+    <Footer />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const authUser = ref(localStorage.getItem('authUser'))
-const showProfileMenu = ref(false)
-const cartCount = ref(0)
-const profileMenuRef = ref(null)
-
-function logout() {
-  localStorage.removeItem('authUser')
-  authUser.value = null
-  router.push('/login')
-}
-
-function viewProfile() {
-  // Placeholder for profile view logic
-  showProfileMenu.value = false
-  alert('Profile page coming soon!')
-}
-
-// Close dropdown when clicking outside
-function handleClickOutside(event) {
-  if (profileMenuRef.value && !profileMenuRef.value.contains(event.target)) {
-    showProfileMenu.value = false
-  }
-}
-if (typeof window !== 'undefined') {
-  window.addEventListener('click', handleClickOutside)
-}
-
-// Listen for storage changes (in case of multi-tab logout)
-window.addEventListener('storage', () => {
-  authUser.value = localStorage.getItem('authUser')
-})
+import Navbar from './Navbar.vue'
+import Footer from './Footer.vue'
+import CartDrawer from './CartDrawer.vue'
 
 const bestSelling = [
   {
     id: 1,
     name: 'Raspberry Sundae',
-    img: '/rasbperry_sundae.jpg',
+    img: '/raspberry_sundae.jpg',
     rating: 4.5,
   },
   {
@@ -207,14 +111,7 @@ const bestSelling = [
 </script>
 
 <style scoped>
-:global(html), :global(body) {
-  background: #ffe6f0;
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+/* Add or update styles for a more modern, pink, bakery-themed look */
 .landing-page {
   background: #ffe6f0;
   min-height: 100vh;
@@ -225,91 +122,12 @@ const bestSelling = [
   color: #d72660;
   overflow-x: hidden;
 }
-
 .main-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
 }
-
-.navbar {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0;
-  background: #ffe6f0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  border: none;
-  box-shadow: none;
-  height: 64px;
-}
-.logo-section {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin: 0;
-  padding: 0 0 0 1.2rem;
-  min-width: 0;
-}
-.logo-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
-  background: none;
-  border: none;
-  margin: 0;
-  object-fit: contain;
-  display: block;
-}
-.logo-text {
-  font-size: 1.3rem;
-  font-family: inherit;
-  font-weight: 500;
-  color: #d72660;
-  margin-left: 0.6rem;
-  letter-spacing: 0.01em;
-  display: flex;
-  align-items: center;
-  line-height: 1;
-  white-space: nowrap;
-}
-.nav-links {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 2rem;
-  list-style: none;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #d72660;
-  margin: 0;
-  padding: 0 1.2rem 0 0;
-  flex: 0 0 auto;
-}
-.nav-links li {
-  cursor: pointer;
-  padding-bottom: 0.2rem;
-  border-bottom: 2px solid transparent;
-  transition: border 0.2s;
-  white-space: nowrap;
-  color: #d72660;
-  font-weight: 500;
-  background: none;
-  border: none;
-  margin: 0;
-  display: flex;
-  align-items: center;
-}
-.nav-links li.active, .nav-links li:hover {
-  border-bottom: 2px solid #d72660;
-}
-
 .hero-section {
   display: flex;
   align-items: center;
@@ -361,7 +179,7 @@ const bestSelling = [
   margin-bottom: 1.5rem;
 }
 .about-btn {
-  background: #6fcf97;
+  background: #d72660;
   color: #fff;
   border: none;
   border-radius: 24px;
@@ -370,11 +188,12 @@ const bestSelling = [
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
 }
 .about-btn:hover {
-  background: #4caf50;
+  background: #b71c4a;
 }
-
 .menu-preview-section {
   margin: 3.5rem auto 80px auto;
   max-width: 1200px;
@@ -513,6 +332,7 @@ const bestSelling = [
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
 }
 .menu-view-more-btn:hover {
   background: #d72660;
@@ -522,85 +342,6 @@ const bestSelling = [
   font-size: 1.2rem;
   margin-left: 0.2rem;
 }
-
-/* Restore nav-icons and icon styles */
-.nav-icons {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-left: 1.5rem;
-}
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-.profile-icon-wrapper, .cart-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.profile-dropdown {
-  position: absolute;
-  top: 2.2rem;
-  right: 0;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(229, 115, 138, 0.13);
-  min-width: 140px;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem 0;
-}
-.dropdown-item {
-  padding: 0.7rem 1.2rem;
-  color: #d72660;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.dropdown-item:hover {
-  background: #ffe6f0;
-}
-.cart-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  width: 40px;
-}
-.cart-badge {
-  position: absolute;
-  top: -8px;
-  right: -6px;
-  background: #d72660;
-  color: #fff;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0 6px;
-  min-width: 18px;
-  height: 18px;
-  text-align: center;
-  line-height: 18px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.icon-btn svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-  z-index: 1;
-}
-
 .about-preview-section {
   width: 100vw;
   min-height: 260px;
@@ -669,11 +410,12 @@ const bestSelling = [
   cursor: pointer;
   transition: background 0.18s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  text-decoration: none;
+  display: inline-block;
 }
 .about-read-btn:hover {
   background: #7a3c24;
 }
-
 .contact-footer-section {
   width: 100vw;
   min-height: 320px;

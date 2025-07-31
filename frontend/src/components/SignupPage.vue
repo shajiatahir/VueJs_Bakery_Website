@@ -3,6 +3,7 @@
     <LogoHeader />
     <form class="auth-form" @submit.prevent="signup">
       <h2>Sign Up</h2>
+      <input v-model="name" type="text" placeholder="Full Name" required />
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Password" required />
       <button type="submit">Sign Up</button>
@@ -18,6 +19,7 @@ import { useRouter } from 'vue-router'
 import LogoHeader from './LogoHeader.vue'
 import axios from 'axios'
 
+const name = ref('')
 const email = ref('')
 const password = ref('')
 const router = useRouter()
@@ -25,15 +27,56 @@ const error = ref('')
 
 async function signup() {
   error.value = ''
+  
+  if (!name.value || !email.value || !password.value) {
+    error.value = 'All fields are required'
+    return
+  }
+  
   try {
-    await axios.post('http://localhost:3001/api/signup', {
+    console.log('Sending signup request with data:', {
+      name: name.value,
       email: email.value,
-      password: password.value
+      password: password.value,
+      role: 'customer'
     })
-    router.push('/login')
+    
+    const response = await axios.post('http://localhost:3000/', {
+      transition: 'SIGNUP',
+      data: {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        role: 'customer' // Always register as customer
+      }
+    })
+    
+    console.log('Signup response:', response.data)
+    
+    if (response.data.errorMessage) {
+      error.value = response.data.errorMessage
+    } else if (response.data.success || response.data.message) {
+      // Success case - clear form and redirect
+      console.log('Signup successful! Redirecting to login...')
+      name.value = ''
+      email.value = ''
+      password.value = ''
+      router.push('/login')
+    } else {
+      // If no error message and no explicit success, assume success
+      // (since the user was created in database)
+      console.log('Signup completed successfully, redirecting to login...')
+      name.value = ''
+      email.value = ''
+      password.value = ''
+      router.push('/login')
+    }
   } catch (err) {
+    console.error('Signup error:', err)
     if (err.response && err.response.data && err.response.data.message) {
       error.value = err.response.data.message
+    } else if (err.response && err.response.data && err.response.data.errorMessage) {
+      error.value = err.response.data.errorMessage
     } else {
       error.value = 'Signup failed. Please try again.'
     }

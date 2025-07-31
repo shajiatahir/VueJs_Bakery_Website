@@ -25,13 +25,33 @@ const router = useRouter()
 
 async function login() {
   error.value = ''
+  
+  if (!email.value || !password.value) {
+    error.value = 'Email and password are required'
+    return
+  }
+  
   try {
-    const response = await axios.post('http://localhost:3001/api/login', {
-      email: email.value,
-      password: password.value
+    const response = await axios.post('http://localhost:3000/', {
+      transition: 'LOGIN',
+      data: {
+        email: email.value,
+        password: password.value
+      }
     })
-    localStorage.setItem('authUser', JSON.stringify(response.data.user))
-    router.push('/home')
+    
+    if (response.data.user) {
+      localStorage.setItem('authUser', JSON.stringify(response.data.user))
+      
+      // Role-based redirect
+      if (response.data.user.role === 'admin') {
+        router.push('/admin') // Redirect admins to admin dashboard
+      } else {
+        router.push('/home') // Redirect customers to home
+      }
+    } else {
+      error.value = response.data.errorMessage || 'Login failed.'
+    }
   } catch (err) {
     if (err.response && err.response.data && err.response.data.message) {
       error.value = err.response.data.message
